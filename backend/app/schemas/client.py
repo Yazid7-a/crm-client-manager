@@ -10,8 +10,11 @@ class ClientBase(BaseModel):
 class ClientCreate(ClientBase):
     pass
 
+class ClientUpdate(ClientBase):
+    pass
+
 class ClientOut(ClientBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True  # Esto reemplaza a orm_mode en Pydantic v2
