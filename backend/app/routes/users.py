@@ -4,6 +4,10 @@ from ..schemas.user import UserCreate
 from ..models import user as models
 from ..database import SessionLocal
 from passlib.context import CryptContext
+from ..schemas.user import UserOut
+from ..models import User
+from ..dependencies import get_current_user
+from fastapi import APIRouter, Depends
 
 router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -32,3 +36,7 @@ def read_profile(user = Depends(get_current_user)):
         "message": f"Bienvenido, {user.username}",
         "email": user.email
     }
+
+@router.get("/users/me", response_model=UserOut)
+def read_users_me(current_user: User = Depends(get_current_user)):
+    return current_user
